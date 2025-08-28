@@ -1,0 +1,450 @@
+/* ===================== Base ===================== */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: fit-content;
+  max-width: 500px;
+  height: 80%;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.game-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.player-badge {
+  background: #2c2c2c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* ===================== Score Panel ===================== */
+.score-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 400px;
+}
+
+.score-button {
+  background: #2c2c2c;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: default;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+}
+
+.score-button .score-value {
+  display: inline-block;
+  min-width: 40px;
+  text-align: right;
+}
+
+.score-button.best-score {
+  background: #222;
+}
+
+.score-button.play-count {
+  background: #444;
+}
+
+.score-button.leaderboard-btn {
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.score-button.leaderboard-btn:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.12);
+}
+
+.score-button.leaderboard-btn:active {
+  transform: scale(0.98);
+}
+
+/* ===================== Dice Layout ===================== */
+.dice-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  background: var(--green-200);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+/* ----- Dice Row (3 dice) ----- */
+.dice-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.die {
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  font-weight: 900;
+  user-select: none;
+  position: relative;
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+
+.dice-icon {
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  justify-self: center;
+  align-self: center;
+}
+
+/* Tùy chỉnh màu cho dice icon */
+.dice-icon svg {
+  background: #ffffff !important; /* Nền trắng */
+  border-radius: 4px;
+}
+
+.dice-icon svg path {
+  fill: #3b82f6 !important; /* Viền xanh */
+}
+
+.dice-icon svg circle {
+  fill: #ef4444 !important; /* Chấm đỏ */
+}
+
+/* Thêm selector mạnh hơn */
+.die .dice-icon svg {
+  background: #ffffff !important;
+}
+
+.die .dice-icon svg path {
+  fill: #3b82f6 !important;
+}
+
+.die .dice-icon svg circle {
+  fill: #ef4444 !important;
+}
+
+.die.empty {
+  opacity: 0.5;
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.die.hit {
+  outline: 3px solid #22c55e;
+  /* green-500 */
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.25);
+}
+
+/* ----- Dice Animation ----- */
+@keyframes dice-roll {
+  0%   { transform: rotateX(0) rotateY(0) scale(1);   filter: blur(0); }
+  25%  { transform: rotateX(180deg) rotateY(90deg) scale(1.06); filter: blur(0.6px); }
+  50%  { transform: rotateX(360deg) rotateY(180deg) scale(0.97); filter: blur(0.4px); }
+  75%  { transform: rotateX(540deg) rotateY(270deg) scale(1.03); filter: blur(0.6px); }
+  100% { transform: rotateX(720deg) rotateY(360deg) scale(1);   filter: blur(0); }
+}
+
+.die, .die-choice { 
+  position: relative; 
+}
+
+.dice-icon { 
+  display: block; 
+  width: 100%; 
+  height: auto; 
+  transform-style: preserve-3d; 
+}
+
+.rolling .dice-icon, .die.rolling .dice-icon {
+  animation: dice-roll 2.5s cubic-bezier(.5,0,.5,1);
+  transform-origin: 50% 50%;
+  will-change: transform, filter;
+}
+
+/* "nảy" khi dừng nếu trúng */
+@keyframes dice-bounce {
+  0% { transform: translateY(0) scale(1); }
+  60% { transform: translateY(-8px) scale(1.1); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.die.hit .dice-icon { 
+  animation: dice-bounce 320ms ease-out; 
+}
+
+/* Hiệu ứng pulse cho dice trúng */
+@keyframes dice-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.7);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(16, 185, 129, 1);
+    transform: scale(1.05);
+  }
+}
+
+.die.hit {
+  animation: dice-pulse 2s ease-in-out infinite;
+}
+
+
+/* ----- Choose Number (1..6) ----- */
+.choose-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  width: 410px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.choose-hint {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.choose-btn {
+  background: #3a3a3a;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0;
+  font-weight: 900;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.choose-btn:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.12);
+  transform: scale(1.05);
+}
+
+.choose-btn:active {
+  transform: scale(0.95);
+}
+
+.choose-btn.active {
+  background: #444;
+  outline: 2px solid #7c3aed;
+  /* violet-600 */
+}
+
+/* Dice được chọn - nền tím */
+.choose-btn.active .die-choice {
+  background: #7c3aed !important; /* violet-600 */
+  border: 2px solid #a855f7; /* violet-500 */
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.6);
+}
+
+/* Dice trúng - nền xanh */
+.die.hit {
+  background: #10b981 !important; /* emerald-500 */
+  border: 2px solid #34d399; /* emerald-400 */
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.7);
+}
+
+/* Dice trúng trong choose-grid cũng có nền xanh */
+.choose-btn .die-choice.hit {
+  background: #10b981 !important;
+  border: 2px solid #34d399;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+}
+
+/* Dice trong choose-grid (nhỏ hơn) */
+.die-choice {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===================== Round Info ===================== */
+.round-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: #232323;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-weight: 700;
+}
+
+.round-info strong {
+  color: #fff;
+}
+
+/* ===================== Controls ===================== */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.control-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.control-button {
+  background: #7c3aed;
+  /* violet-600 */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  text-align: center;
+}
+
+.control-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.control-button:active {
+  transform: translateY(1px);
+}
+
+.control-button.new-game {
+  background: var(--green-500);
+  /* green */
+}
+
+.control-button.save-score {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  /* orange */
+}
+
+.control-button:disabled,
+.control-button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===================== Small Responsive ===================== */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 10px 8px;
+  }
+
+  .choose-btn {
+    padding: 10px 0;
+    font-size: 15px;
+  }
+
+  .die {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+
+  .control-button {
+    min-width: 110px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* ===================== Ultra Small ===================== */
+@media (max-width: 420px) {
+  .choose-grid {
+    gap: 8px;
+  }
+
+  .die {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .round-info {
+    font-size: 13px;
+    gap: 12px;
+  }
+}
