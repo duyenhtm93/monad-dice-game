@@ -13,7 +13,10 @@ function AuthNotConfigured() {
   );
 }
 
-type Props = { onAddressChange: (address: string) => void };
+type Props = { 
+  onAddressChange: (address: string) => void;
+  onMonadUserChange: (user: { username: string } | null) => void;
+};
 
 // Shorten address for UI
 const shortAddr = (addr?: string) =>
@@ -82,7 +85,7 @@ function PromptModal({
   );
 }
 
-function PrivyAuth({ onAddressChange }: Props) {
+function PrivyAuth({ onAddressChange, onMonadUserChange }: Props) {
   const { authenticated, user, ready, logout, login } = usePrivy();
   const env = useAppConfig();
 
@@ -158,6 +161,11 @@ function PrivyAuth({ onAddressChange }: Props) {
     }
   }, [hasUsername, monadUser?.username]);
 
+  // Notify parent component when monadUser changes
+  useEffect(() => {
+    onMonadUserChange(monadUser);
+  }, [monadUser, onMonadUserChange]);
+
   if (!ready) return <div className="status-message info">Loading…</div>;
 
   // Not connected
@@ -225,8 +233,8 @@ function PrivyAuth({ onAddressChange }: Props) {
   );
 }
 
-export default function WalletConnect({ onAddressChange }: Props) {
+export default function WalletConnect({ onAddressChange, onMonadUserChange }: Props) {
   const env = useAppConfig();
   if (!env.NEXT_PUBLIC_PRIVY_APP_ID) return <AuthNotConfigured />;
-  return <PrivyAuth onAddressChange={onAddressChange} />;
+  return <PrivyAuth onAddressChange={onAddressChange} onMonadUserChange={onMonadUserChange} />;
 }

@@ -1,6 +1,6 @@
 export async function GET() {
   try {
-              const response = await fetch('https://monad-games-id-site.vercel.app/api/leaderboard?page=1&limit=10&gameId=91&sortBy=scores&sortOrder=desc', {
+              const response = await fetch('https://monad-games-id-site.vercel.app/api/leaderboard?page=1&limit=10&gameId=113&sortBy=scores&sortOrder=desc', {
       method: 'GET',
       headers: {
         'User-Agent': 'Monad-2048-Game/1.0',

@@ -16,6 +16,7 @@ const Leaderboard = dynamic(() => import("./components/Leaderboard"), {
 export default function Home() {
   const [playerAddress, setPlayerAddress] = useState<string | null>(null);
   const [gameScore, setGameScore] = useState<number>(0);
+  const [monadUser, setMonadUser] = useState<{ username: string } | null>(null);
 
   // Stable callbacks for child components
   const handleAddressChange = useCallback((addr: string | null) => {
@@ -26,6 +27,10 @@ export default function Home() {
     setGameScore(score);
   }, []);
 
+  const handleMonadUserChange = useCallback((user: { username: string } | null) => {
+    setMonadUser(user);
+  }, []);
+
   return (
     <div className="app-container">
       {/* Header with Logo and Auth */}
@@ -34,7 +39,10 @@ export default function Home() {
           <img src="/dice-logo.svg" alt="Monad Games" className="logo" />
           <span className="logo-text">Monad Dice Game</span>
         </div>
-        <WalletConnect onAddressChange={handleAddressChange} />
+        <WalletConnect 
+          onAddressChange={handleAddressChange} 
+          onMonadUserChange={handleMonadUserChange}
+        />
       </section>
 
       {/* Game */}
@@ -42,6 +50,7 @@ export default function Home() {
         <DiceGame
           playerAddress={playerAddress ?? undefined}
           onScoreChange={handleScoreChange}
+          monadUser={monadUser}
         />
       </section>
 

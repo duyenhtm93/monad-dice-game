@@ -36,6 +36,7 @@ interface GameState {
 interface GameProps {
   playerAddress?: string;
   onScoreChange?: (score: number) => void;
+  monadUser?: { username: string } | null;
 }
 
 function rollDice(n: number = 3): Die[] {
@@ -88,7 +89,7 @@ function DiceIcon({
 
 /** ===== Component ===== **/
 
-export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
+export default function DiceGame({ playerAddress, onScoreChange, monadUser }: GameProps) {
   const env = useAppConfig(); // (not used now, but kept for consistency)
   const [mounted, setMounted] = useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
@@ -258,6 +259,9 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
       ? `${playerAddress.slice(0, 6)}…${playerAddress.slice(-4)}`
       : playerAddress || "Guest";
 
+  // Check if game should be locked
+  const isGameLocked = !playerAddress || !monadUser?.username;
+
   if (!mounted) {
     return (
       <div className="game-container">
@@ -293,7 +297,11 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
         </div>
 
         <div className="control-panel">
-          <button onClick={initializeGame} className="control-button new-game">
+          <button 
+            onClick={initializeGame} 
+            className="control-button new-game"
+            disabled={isGameLocked}
+          >
             New Game
           </button>
           <button
@@ -387,7 +395,11 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
       {/* Controls */}
       <div className="control-panel">
         <div className="control-buttons">
-          <button onClick={initializeGame} className="control-button new-game">
+          <button 
+            onClick={initializeGame} 
+            className="control-button new-game"
+            disabled={isGameLocked}
+          >
             New Game
           </button>
 
@@ -395,7 +407,7 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
             onClick={rollOnce}
             className="control-button"
             disabled={
-              gameState.chosen == null || gameState.playCount >= 10 || isRolling
+              isGameLocked || gameState.chosen == null || gameState.playCount >= 10 || isRolling
             }
             title={
               gameState.chosen == null
@@ -486,7 +498,7 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
               gameState.chosen === n ? "active" : ""
             }`}
             onClick={() => chooseNumber(n)}
-            disabled={isRolling}
+            disabled={isGameLocked || isRolling}
           >
             <DiceIcon value={n} isChoice={true} />
           </button>
@@ -494,7 +506,15 @@ export default function DiceGame({ playerAddress, onScoreChange }: GameProps) {
       </div>
 
       {/* Hint text below choose grid */}
-      <div className="choose-hint">Choose a die face, then click Roll.</div>
+      <div className="choose-hint">
+        {isGameLocked ? (
+          <span className="locked-hint">
+            🔒 {!playerAddress ? 'Login to play game!' : 'Create Monad ID to play'}
+          </span>
+        ) : (
+          'Choose a die face, then click Roll.'
+        )}
+      </div>
 
       {/* Leaderboard Popup */}
       <LeaderboardPopup
