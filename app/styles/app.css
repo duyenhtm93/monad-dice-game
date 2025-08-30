@@ -218,131 +218,7 @@
   height: 24px;
 }
 
-/* ========= LEADERBOARD POPUP ========= */
-.leaderboard-popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
 
-.leaderboard-popup-content {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: var(--shadow-xl);
-  width: 640px;
-  max-width: 92vw;
-  max-height: 90vh;
-  overflow: hidden;
-}
-
-.popup-header {
-  background: var(--green-600);
-  color: #fff;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 16px 16px 0 0;
-  position: relative;
-}
-
-.popup-title {
-  font-size: 22px;
-  font-weight: 900;
-  margin: 0;
-}
-
-.popup-close-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.popup-close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-}
-
-.popup-body {
-  padding: 20px;
-  max-height: 60vh;
-  overflow-y: auto;
-  background: var(--green-200);
-}
-
-.leaderboard-table {
-  background: #fff;
-  border-radius: 8px;
-  margin-top: 16px;
-}
-
-.table-header,
-.table-row {
-  display: grid;
-  grid-template-columns: 80px 1fr 120px 100px;
-  gap: 12px;
-  padding: 12px;
-  font-weight: 800;
-}
-
-.table-header {
-  background: var(--green-600);
-  color: #fff;
-}
-
-.table-row {
-  color: var(--green-700);
-  border-bottom: 1px solid #e5e7eb;
-}
-
-/* Monad ID display styling */
-.monad-id-display {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 4px 8px;
-  border-radius: 4px;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.monad-id-display:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
-}
-
-.monad-id-display-static {
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: default;
-}
-
-
-
-
-
-.link-icon {
-  margin-left: 6px;
-  font-size: 12px;
-  opacity: 0.7;
-}
 
 /* -----------------------MODAL BACKDROP----------------------- */
 .modal-backdrop {
@@ -441,3 +317,303 @@
 .modal-close:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* ====================== LEADERBOARD POPUP ====================== */
+.leaderboard-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.leaderboard-popup-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow-xl);
+  width: 720px;
+  /* rộng hơn một chút để thoáng */
+  max-width: 94vw;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-header {
+  background: var(--green-600);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px 16px 0 0;
+  position: sticky;
+  /* dính trên cùng khi cuộn */
+  top: 0;
+  z-index: 1;
+}
+
+.popup-title {
+  font-size: 20px; /* Giảm một chút để cân đối với font size 16px */
+  font-weight: 900;
+  margin: 0;
+}
+
+.popup-close-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.popup-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.popup-body {
+  padding: 16px 20px;
+  overflow: auto;
+  background: var(--green-200);
+  flex: 1 1 auto;
+}
+
+/* ====== Table ====== */
+.leaderboard-table {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+/* 4 cột: Rank | Player | MonadID | Score */
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: 72px 1fr 1fr 120px; /* Rank | Player | MonadID | Score */
+  gap: 0;
+  align-items: center;
+}
+
+.table-header {
+  position: sticky;
+  /* dính header khi cuộn nội dung bảng */
+  top: 0;
+  z-index: 2;
+  background: var(--green-600);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 16px; /* Đồng nhất font size 16px */
+}
+
+
+
+.table-header>div {
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+.table-row {
+  color: #000; /* Thay đổi từ var(--green-700) thành đen */
+  border-top: 1px solid #eef2f7;
+  background: #fff;
+  transition: background 0.15s ease;
+  font-size: 16px; /* Đồng nhất font size 16px */
+}
+
+.table-row:nth-child(even) {
+  background: #fafafa;
+  /* zebra */
+}
+
+.table-row:hover {
+  background: #f3faf6;
+  /* nhẹ theo tone xanh */
+}
+
+.table-row>div {
+  padding: 12px 14px;
+  min-width: 0;
+  font-size: 16px; /* Đồng nhất font size 16px */
+  /* cho phép text-truncate */
+}
+
+/* Cột 1: Rank (canh giữa, monospace để số đẹp) */
+.table-row>div:nth-child(1),
+.table-header>div:nth-child(1) {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  /* Bỏ monospace font để đồng nhất kích thước với các cột khác */
+  font-size: 16px; /* Bỏ !important */
+}
+
+/* Cột 2: Player (tên dài có truncate) */
+.table-row>div:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Cột 3: Monad ID (có thể click) */
+.table-row>div:nth-child(3) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Cột 4: Score (canh phải, monospace) */
+.table-row>div:nth-child(4),
+.table-header>div:nth-child(4) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  /* Bỏ monospace font để đồng nhất kích thước với các cột khác */
+  font-size: 16px; /* Bỏ !important */
+}
+
+/* Monad ID clickable */
+.monad-id-display {
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.12s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: #000; /* Thay đổi từ var(--green-700) thành đen */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px; /* Đồng nhất font size 16px */
+}
+
+.monad-id-display:hover {
+  background: rgba(0, 0, 0, 0.1); /* thay đổi từ xanh sang đen nhạt */
+  transform: translateY(-1px);
+}
+
+.monad-id-display-static {
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: default;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Link icon nhỏ sau Monad ID */
+.link-icon {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+  flex: 0 0 auto;
+}
+
+/* Scrollbar tinh gọn */
+.popup-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.popup-body::-webkit-scrollbar-track {
+  background: #e9f5ef;
+  border-radius: 8px;
+}
+
+.popup-body::-webkit-scrollbar-thumb {
+  background: var(--green-600);
+  border-radius: 8px;
+  border: 2px solid #e9f5ef;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 680px) {
+  .leaderboard-popup-content {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .popup-header {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 56px 1fr 1fr 88px; /* thu gọn ở mobile, giữ 4 cột */
+  }
+
+  .table-header>div,
+  .table-row>div {
+    padding: 10px 12px;
+  }
+
+  /* Nếu quá chật, ẩn tạm cột MonadID (cột 3) để ưu tiên Rank/Player/Score */
+  @media (max-width: 520px) {
+
+    .table-header,
+    .table-row {
+      grid-template-columns: 56px 1fr 96px;
+    }
+
+    .table-header>div:nth-child(3),
+    .table-row>div:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+/* ====== Empty state / helper ====== */
+.leaderboard-empty {
+  padding: 16px 20px;
+  color: #000; /* Thay đổi từ var(--green-700) thành đen */
+  background: #f0fdf4;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px; /* Đồng nhất font size 16px */
+}
+
+/* Optional: top badges for top 3 ranks */
+.table-row.top-1>div:nth-child(1),
+.table-row.top-2>div:nth-child(1),
+.table-row.top-3>div:nth-child(1) {
+  border-radius: 999px;
+  padding: 6px 10px;
+  margin: 6px auto;
+  width: fit-content;
+  color: #fff;
+}
+
+.table-row.top-1>div:nth-child(1) {
+  background: #f59e0b;
+}
+
+/* gold-ish */
+.table-row.top-2>div:nth-child(1) {
+  background: #9ca3af;
+}
+
+/* silver */
+.table-row.top-3>div:nth-child(1) {
+  background: #b45309;
+}
+
+/* bronze */

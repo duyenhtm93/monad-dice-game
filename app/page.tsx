@@ -56,34 +56,7 @@ export default function Home() {
 
       {/* Footer */}
       <section className="footer-section">
-        <p className="footer-text">© 2025 Created by duyenhtm</p>
-        <div className="social-icons">
-          <a
-            href="https://github.com/duyenhtm93"
-            target="_blank"
-            rel="noreferrer"
-            className="social-button"
-          >
-            <img src="/github.svg" alt="" />
-          </a>
-          <a
-            href="https://x.com/duyenhtm"
-            target="_blank"
-            rel="noreferrer"
-            className="social-button"
-          >
-            <img src="/x.svg" alt="" />
-          </a>
-          <a
-            href="https://discord.com/users/duyenhtm"
-            target="_blank"
-            rel="noreferrer"
-            className="social-button"
-          >
-            <img src="/discord.svg" alt="" />
-          </a>
-        
-        </div>
+        <p className="footer-text">© Created by duyenhtm</p>
       </section>
     </div>
   );

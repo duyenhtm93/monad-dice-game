@@ -5,7 +5,9 @@
   gap: 12px;
   width: fit-content;
   max-width: 500px;
-  height: 80%;
+  min-height: 80%;
+  align-self: flex-start;
+    /* Đẩy container lên trên cùng */
   box-sizing: border-box;
   padding: 20px;
   border-radius: 20px;
@@ -254,7 +256,9 @@
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   font-weight: 500;
-  margin-top: 8px;
+  margin-bottom: 0;
+  margin-top: auto;
+  /* Thêm khoảng cách với choose-grid */
   font-style: italic;
 }
 
