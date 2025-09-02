@@ -516,6 +516,12 @@ export default function DiceGame({ playerAddress, onScoreChange, monadUser }: Ga
         )}
       </div>
 
+      {/* Leaderboard Popup */}
+      <LeaderboardPopup 
+        isOpen={isLeaderboardOpen} 
+        onClose={() => setIsLeaderboardOpen(false)} 
+        playerAddress={playerAddress} 
+      />
 
     </div>
   );

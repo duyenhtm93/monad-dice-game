@@ -105,11 +105,6 @@ export default function Leaderboard({ playerAddress }: LeaderboardProps) {
           >
             {isLoading ? "Loading..." : "🔄 Refresh"}
           </button>
-          <span className="player-count">
-            {leaderboard.length > 0
-              ? `${leaderboard.length} Players`
-              : "No Players"}
-          </span>
         </div>
       </div>
 
